@@ -1,0 +1,32 @@
+.main-features {
+    background-color: var(--tertiary-dark);
+
+    .section-content {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 1.5rem;
+        margin-top: 2rem;
+        padding: 1.5rem;
+    }
+}
+
+.feature__wrapper {
+    background-color: var(--tertiary-light);
+    padding: 3rem 2.5rem;
+
+    .feature__icon {
+        font-size: 2.5rem;
+        color: var(--primary);
+    }
+
+    .feature__title {
+        font-size: 1.5rem;
+        font-weight: 500;
+        margin-top: 1rem;
+    }
+
+    .feature__description {
+        opacity: 0.65;
+        margin: .5rem 0;
+    }
+}

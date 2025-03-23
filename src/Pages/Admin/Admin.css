@@ -1,0 +1,238 @@
+.admin-container {
+    display: grid;
+    grid-template-columns: minmax(350px, 3fr) 7fr;
+    padding: 0 clamp(0.75rem, 4vw, 1.5rem) 1rem;
+    gap: 1rem;
+    margin: 2rem;
+}
+
+.form-title {
+    font-weight: 300;
+    text-transform: uppercase;
+    font-size: 1rem;
+    text-align: center;
+    margin-bottom: 1rem;
+
+    span {
+        font-weight: 500;
+        color: var(--primary);
+    }
+}
+
+.admin-form-section {
+    display: grid;
+    gap: 1rem;
+}
+
+.admin-form {
+    background-color: var(--tertiary-darker);
+    padding: 1rem;
+}
+
+.input-row {
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: repeat(auto-fill, minmax(75px, 1fr));
+    align-items: start;
+
+    .input-row-span-2 {
+        grid-column: span 2;
+    }
+}
+
+.input-group {
+    display: grid;
+    margin-bottom: .25rem;
+
+    &.input-stock {
+        column-width: auto;
+    }
+
+
+}
+
+.input-group {
+    margin-bottom: 1rem;
+}
+
+.input-group label {
+    font-weight: 300;
+    font-size: .75rem;
+    margin-bottom: .25rem;
+    color: var(--secondary-alt);
+}
+
+.input-group {
+
+    textarea,
+    select,
+    input {
+        width: 100%;
+        padding: .5rem;
+        border: 1px solid var(--tertiary-dark);
+        font-size: .875rem;
+        font-family: var(--primary-font);
+        outline: none;
+        background-color: var(--tertiary-light);
+        resize: none;
+        border-radius: 4px;
+
+        &:focus {
+            border-color: var(--primary);
+        }
+
+    }
+
+    select option:hover {
+        background-color: var(--primary);
+        color: var(--tertiary);
+    }
+
+    .input-error {
+        color: var(--error);
+        font-size: .75rem;
+    }
+
+    &.input-group--inline {
+        display: flex;
+        align-items: center;
+        line-height: 1;
+        gap: .5rem;
+
+        input {
+            width: auto;
+        }
+
+
+        label {
+            margin-bottom: 0;
+        }
+    }
+}
+
+.input-group__button {
+    display: flex;
+}
+
+.admin__elements {
+    display: grid;
+    gap: 1rem;
+    align-items: start;
+    grid-template-rows: auto auto 1fr;
+    padding: 0 1rem;
+}
+
+.admin__table-wrapper {
+    width: 100%;
+    overflow-x: auto;
+
+}
+
+.admin__table {
+    width: 100%;
+    border-collapse: collapse;
+    color: var(--secondary-alt);
+    font-size: .75rem;
+
+    .image__cell {
+        text-align: center;
+
+        img {
+            width: 60px;
+            height: 60px;
+            object-fit: cover;
+            padding: 0;
+            filter: drop-shadow(0 0 4px var(--tertiary-darker));
+        }
+    }
+
+    .name__cell {
+        font-size: .875rem;
+        color: var(--secondary);
+    }
+
+    .price__cell {
+        font-weight: 500;
+        text-align: center;
+    }
+
+    .stock__cell,
+    .date__cell {
+        text-align: center;
+    }
+
+    .description__cell {
+        max-width: 300px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        font-size: .875rem;
+    }
+
+}
+
+.admin__table tbody tr:nth-child(even) {
+    background-color: var(--tertiary-dark);
+}
+
+.admin__table th {
+    background-color: var(--tertiary-darker);
+    color: var(--secondary);
+    font-weight: 500;
+    text-align: left;
+    padding: .5rem;
+    border-bottom: 2px solid var(--primary);
+
+}
+
+.admin__table td {
+    border: 1px solid var(--tertiary-light);
+    padding: .5rem;
+}
+
+
+
+.admin__table .actions__wrapper {
+    display: flex;
+    gap: .5rem;
+    justify-content: center;
+
+    .actions__button {
+        background-color: var(--tertiary-lightest);
+        color: var(--secondary);
+        width: 20px;
+        padding: .25rem 0;
+        border-radius: .125rem;
+        transition: background-color .3s ease, color .3s ease;
+
+        &:hover {
+            background-color: var(--tertiary-lighter);
+            color: var(--alternative);
+        }
+
+        &.actions__button--danger {
+            background-color: var(--error);
+
+            &:hover {
+                background-color: var(--error-dark);
+                color: var(--secondary);
+            }
+        }
+
+        /* &.actions__button--secondary {
+            background-color: var(--tertiary-light);
+            color: var(--secondary);
+
+            &:hover {
+                background-color: var(--tertiary-lightest);
+                color: var(--alternative);
+            }
+        } */
+    }
+}
+
+@media screen and (width < 768px) {
+    .admin-container {
+        grid-template-columns: 1fr;
+    }
+}

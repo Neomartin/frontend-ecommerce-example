@@ -1,0 +1,22 @@
+.pagination {
+    display: flex;
+    justify-content: center;
+
+    .pagination__button {
+        background-color: transparent;
+        padding: .5rem .625rem;
+        border: 1px solid var(--tertiary-light);
+        box-shadow: 0 0 5px var(--tertiary-darker);
+        color: var(--secondary-alt);
+
+        &:hover {
+            background-color: var(--tertiary-light);
+        }
+
+        &.active {
+            background-color: var(--tertiary-lightest);
+            color: var(--primary);
+            font-weight: 600;
+        }
+    }
+}

@@ -1,0 +1,33 @@
+.contact-section {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    margin: 2rem 0 4rem;
+
+
+
+    .contact-form {
+        background-color: var(--tertiary-darker);
+        padding: 1rem;
+
+        .admin-form {
+            max-width: 500px;
+            margin: 0 auto
+        }
+    }
+
+    .contact-map {
+        height: 100%;
+        width: 100%;
+
+        .contact-map__iframe {
+            border: 0;
+        }
+    }
+}
+
+@media screen and (width < 768px) {
+    .contact-section {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto 450px;
+    }
+}
