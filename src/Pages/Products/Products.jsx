@@ -4,7 +4,8 @@ import SectionTitle from '../../components/SectionTitle/SectionTitle';
 import Sidebar from '../../Layout/Sidebar/Sidebar';
 import './Products.css';
 import { useEffect, useState } from 'react';
-const URL = import.meta.env.VITE_API_URL;
+import { URL } from '../../config/env.config';
+
 export default function Products() {
   const [products, setProducts] = useState([]);
   useEffect(() => {

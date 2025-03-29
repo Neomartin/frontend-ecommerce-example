@@ -1,15 +1,20 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import './ProductCard.css';
 import { faEye, faShoppingCart } from '@fortawesome/free-solid-svg-icons';
+import { FILES_URL } from '../../config/env.config';
 
 export default function ProductCard({ product }) {
   return (
     <article className="product-card">
       <div className="product-card__header" data-category={product.category}>
-        <img className="image" src={product.image} alt="" />
+        <img
+          className="image"
+          src={`${FILES_URL}/products/${product.images[0]}`}
+          alt={product.name}
+        />
         <img
           className="image-full"
-          src={product.image2 ? product.image2 : product.image}
+          src={`${FILES_URL}/products/${product.images[1] ?? product.images[0]}`}
           alt=""
         />
         <div className="product-card__actions">

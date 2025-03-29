@@ -7,8 +7,7 @@ import { useForm } from 'react-hook-form';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import Pagination from '../../components/Pagination/Pagination';
-
-const URL = import.meta.env.VITE_API_URL;
+import { FILES_URL, URL } from '../../config/env.config';
 
 export default function AdminProduct() {
   const [products, setProducts] = useState([]);
@@ -35,8 +34,6 @@ export default function AdminProduct() {
 
   const onSubmit = async(data) => {
     try {
-
-      data.image = "https://picsum.photos/200/300";
       
       const response = await axios.post(`${URL}/products`, data);
 
@@ -230,7 +227,7 @@ export default function AdminProduct() {
                   <tr key={prod.id || prod._id}>
                     <td className="image__cell">
                       <img
-                        src={prod.image}
+                        src={`${FILES_URL}/products/${prod.images[0]}`}
                         alt={prod.name}
                         loading="lazy"
                         className="admin__product-image"
