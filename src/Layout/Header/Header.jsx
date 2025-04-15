@@ -5,9 +5,13 @@ import {
   faCartShopping,
 } from '@fortawesome/free-solid-svg-icons';
 import userAvatar from '@/assets/images/user-avatar.png';
-import { NavLink } from 'react-router';
+import { Link, NavLink } from 'react-router';
+import { useUser } from '../../context/UserContext';
 
 export default function Header() {
+
+  const { user, logout } = useUser();
+
   return (
     <header className="main-header">
       <input className="main-header__checkbox" type="checkbox" id="burger" />
@@ -47,12 +51,12 @@ export default function Header() {
         NE<span className="main__logo--letter">O</span>
       </div>
       <div className="header-user">
-        <a
-          href="/signup"
+        <Link
+          to="/login"
           className="header-user__link header-user__link--border sm-hide"
         >
           Signup
-        </a>
+        </Link>
         <a href="/login" className="header-user__link" title="Login">
           <FontAwesomeIcon icon={faArrowRightToBracket} />
         </a>
@@ -67,26 +71,35 @@ export default function Header() {
           />
           <div className="header-user__options-container">
             <ul className="header-user__options">
-              <li className="header-user__option header-user__option-title">
-                Admin
-                <ul className="header-user__options">
-                  <li className="header-user__option header-user__option">
-                    <a href="/admin-products">Products</a>
-                  </li>
-                  <li className="header-user__option header-user__option">
-                    <a href="/admin-users">Users</a>
-                  </li>
-                </ul>
-              </li>
+              {user?.role === 'admin' && (
+                <li className="header-user__option header-user__option-title">
+                  Admin
+                  <ul className="header-user__options">
+                    <li className="header-user__option header-user__option">
+                      <a href="/admin-products">Products</a>
+                    </li>
+                    <li className="header-user__option header-user__option">
+                      <a href="/admin-users">Users</a>
+                    </li>
+                  </ul>
+                </li>
+              )}
+
               <li className="header-user__option">
                 <a href="/profile">Profile</a>
               </li>
               <li className="header-user__option">
                 <a href="/orders">Orders</a>
               </li>
-              <li className="header-user__option">
-                <a href="/logout">Logout</a>
-              </li>
+              {user ? (
+                <li className="header-user__option">
+                  <button onClick={() => logout()}>Logout</button>
+                </li>
+              ) : (
+                <li className="header-user__option">
+                  <Link to="/login">Login</Link>
+                </li>
+              )}
             </ul>
           </div>
         </div>

@@ -15,8 +15,7 @@ export default function ProductsContainer() {
   const getProducts = async () => {
     try {
       const { data } = await axios.get(`${URL}/products`);
-
-      setProducts(data);
+      // setProducts(data);
     } catch (error) {
       console.error(error);
     }

@@ -3,25 +3,42 @@ import SectionTitle from '../../components/SectionTitle/SectionTitle';
 import './AdminProduct.css';
 import '../Admin/Admin.css';
 import { faEdit, faStar, faTrash } from '@fortawesome/free-solid-svg-icons';
-import { useForm } from 'react-hook-form';
+import { set, useForm } from 'react-hook-form';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import Pagination from '../../components/Pagination/Pagination';
 import { FILES_URL, URL } from '../../config/env.config';
+import Swal from 'sweetalert2';
 
 export default function AdminProduct() {
   const [products, setProducts] = useState([]);
+  const [editProduct, setEditProduct] = useState(null);
   // const [currentPage, setCurrentPage] = useState(0);
+  const {
+    register,
+    handleSubmit,
+    reset,
+    setValue,
+    formState: { errors, isValid },
+  } = useForm();
 
   useEffect(() => {
     loadProducts();
   }, []);
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors, isValid },
-  } = useForm();
+  useEffect(() => {
+    if(editProduct) {
+      setValue('name', editProduct.name);
+      setValue('price', editProduct.price);
+      setValue('stock', editProduct.stock);
+      setValue('category', editProduct.category);
+      setValue('description', editProduct.description);
+      setValue('favorite', !!editProduct.favorite)
+    } else {
+      reset();
+    }
+  }, [editProduct]);
+
 
   const loadProducts = async () => {
     try {
@@ -34,13 +51,48 @@ export default function AdminProduct() {
 
   const onSubmit = async(data) => {
     try {
+      const formData = new FormData();
+
+      Object.keys(data).forEach((key) => {
+        if (key === 'images') {
+          for (const file of data[key]) {
+            formData.append(key, file);
+          }
+          return;
+        } 
+
+        formData.append(key, data[key]);
+      });
+
+      if(editProduct) {
+        
+        const response = await axios.put(`${URL}/products/${editProduct._id}`, formData);
+
+        setProducts((prev) => prev.map((prod) => prod._id === editProduct._id ? response.data : prod));
+        Swal.fire({
+          icon: 'success',
+          title: 'Product updated successfully',
+          showConfirmButton: false,
+          timer: 1000
+        })
+        setEditProduct(null);
+      } else {
+        const response = await axios.post(`${URL}/products`, formData);
+
+        console.log(response.data);
+
+        setProducts((prev) => [...prev, response.data]);
+        Swal.fire({
+          icon: 'success',
+          title: 'Product uploaded successfully',
+          showConfirmButton: false,
+          timer: 1000,
+        });
+      }
+
       
-      const response = await axios.post(`${URL}/products`, data);
 
-      console.log(response.data);
-
-      setProducts((prev) => [...prev, response.data]);
-      alert('Product uploaded successfully!');
+      reset();
 
 
     } catch (error) {
@@ -130,7 +182,6 @@ export default function AdminProduct() {
               <div className="input-group input-row-span-2">
                 <label htmlFor="">Category</label>
                 <select
-                  defaultValue={''}
                   {...register('category', {
                     required: {
                       value: true,
@@ -177,9 +228,12 @@ export default function AdminProduct() {
                 type="file"
                 accept="image/*"
                 multiple
-                {...register('image', {
-                  required: { value: true, message: 'This field is required' },
+                {...register('images', {
+                  // required: { value: true, message: 'This field is required' },
                   validate: (files) => {
+                    // 
+                    if(setEditProduct?.images?.length) return true;
+
                     if (files.length > 2) return 'Max 2 files';
                     if (files.length < 1) return 'Min 1 file';
                     for (const file of files) {
@@ -194,15 +248,15 @@ export default function AdminProduct() {
             </div>
 
             <div className="input-group input-group--inline">
-              <input type="checkbox" {...register('favorite')} />
+              <input type="checkbox" {...register('favorite')}  />
               <label htmlFor="">Favorite</label>
             </div>
             <button
               type="submit"
-              disabled={!isValid}
+              // disabled={!isValid}
               className="button button--md"
             >
-              Cargar
+              {editProduct ? 'Editar' : 'Cargar'}
             </button>
           </form>
         </div>
@@ -243,6 +297,7 @@ export default function AdminProduct() {
                         <button
                           className="actions__button"
                           title="Edit product"
+                          onClick={() => setEditProduct(prod)}
                         >
                           <FontAwesomeIcon icon={faEdit} />
                         </button>
