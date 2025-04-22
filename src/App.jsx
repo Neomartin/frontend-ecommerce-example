@@ -8,6 +8,7 @@ import Contact from './Pages/Contact/Contact';
 import About from './Pages/About/About';
 import Login from './Pages/Login/Login';
 import AdminGuard from './services/guard/AdminGuard';
+import TempProduct from './components/temp-product/TempProduct';
 
 function App() {
   return (
@@ -17,7 +18,7 @@ function App() {
 
         <Route path="/" element={<Main />}>
           <Route index element={<Home />} />
-          <Route path="products" element={<Products />} />
+          <Route path="products" element={<TempProduct />} />
           <Route path="about" element={<About />} />
           <Route path="contact" element={<Contact />} />
 

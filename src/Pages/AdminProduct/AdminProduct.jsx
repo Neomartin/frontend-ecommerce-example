@@ -43,7 +43,7 @@ export default function AdminProduct() {
   const loadProducts = async () => {
     try {
       const { data } = await axios.get(`${URL}/products`);
-      setProducts(data);
+      // setProducts(data);
     } catch (error) {
       console.log(error);
     }
@@ -51,43 +51,31 @@ export default function AdminProduct() {
 
   const onSubmit = async(data) => {
     try {
+
       const formData = new FormData();
 
-      Object.keys(data).forEach((key) => {
-        if (key === 'images') {
-          for (const file of data[key]) {
-            formData.append(key, file);
-          }
-          return;
-        } 
+      formData.append('name', data.name);
+      formData.append('price', data.price);
+      formData.append('stock', data.stock);
+      formData.append('category', data.category);
+      formData.append('description', data.description);
 
-        formData.append(key, data[key]);
-      });
+      if(data.image?.length) {
+        formData.append('image', data.image[0])
+      }
+      
 
       if(editProduct) {
         
         const response = await axios.put(`${URL}/products/${editProduct._id}`, formData);
 
         setProducts((prev) => prev.map((prod) => prod._id === editProduct._id ? response.data : prod));
-        Swal.fire({
-          icon: 'success',
-          title: 'Product updated successfully',
-          showConfirmButton: false,
-          timer: 1000
-        })
+
         setEditProduct(null);
       } else {
         const response = await axios.post(`${URL}/products`, formData);
 
-        console.log(response.data);
-
-        setProducts((prev) => [...prev, response.data]);
-        Swal.fire({
-          icon: 'success',
-          title: 'Product uploaded successfully',
-          showConfirmButton: false,
-          timer: 1000,
-        });
+       
       }
 
       
@@ -222,23 +210,24 @@ export default function AdminProduct() {
                 </span>
               )}
             </div>
+
+
+
             <div className="input-group">
               <label htmlFor="">Product name</label>
               <input
                 type="file"
                 accept="image/*"
-                multiple
-                {...register('images', {
+                {...register('image', {
                   // required: { value: true, message: 'This field is required' },
                   validate: (files) => {
                     // 
                     if(setEditProduct?.images?.length) return true;
 
-                    if (files.length > 2) return 'Max 2 files';
                     if (files.length < 1) return 'Min 1 file';
-                    for (const file of files) {
-                      if (file.size > 1000000) return 'Max size is 1MB';
-                    }
+                    // for (const file of files) {
+                    //   if (file.size > 5000000) return 'Max size is 5MB';
+                    // }
                   },
                 })}
               />
@@ -246,6 +235,10 @@ export default function AdminProduct() {
                 <span className="input-error">{errors.image.message}</span>
               )}
             </div>
+
+
+
+            
 
             <div className="input-group input-group--inline">
               <input type="checkbox" {...register('favorite')}  />

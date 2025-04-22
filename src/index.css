@@ -179,3 +179,22 @@ input[type="checkbox"] {
     background-color: #f9f9f9;
   }
 }
+
+
+.temp-product-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 1rem;
+
+  .temp-product-card {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr auto;
+    gap: 1rem;
+    border: 1px solid crimson;
+    img {
+      width: 100%;
+      height: 200px;
+    }
+  }
+}
