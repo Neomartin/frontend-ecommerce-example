@@ -43,7 +43,7 @@ export default function AdminProduct() {
   const loadProducts = async () => {
     try {
       const { data } = await axios.get(`${URL}/products`);
-      // setProducts(data);
+      setProducts(data);
     } catch (error) {
       console.log(error);
     }
@@ -75,7 +75,7 @@ export default function AdminProduct() {
       } else {
         const response = await axios.post(`${URL}/products`, formData);
 
-       
+        setProducts((prev) => [...prev, response.data]);
       }
 
       
@@ -271,7 +271,7 @@ export default function AdminProduct() {
               </thead>
               <tbody>
                 {products.map((prod) => (
-                  <tr key={prod.id || prod._id}>
+                  <tr key={prod._id}>
                     <td className="image__cell">
                       <img
                         src={`${FILES_URL}/products/${prod.images[0]}`}
